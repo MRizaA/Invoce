@@ -56,15 +56,24 @@
                                                 <td class="px-0 sm:px-2 md:px-6  py-4 text-center">{{ $invoice['tanggal'] }}</td>
                                                 <td class="px-0 sm:px-2 md:px-6  py-4 text-center">Rp {{ number_format($invoice['harga'], 0, ',', '.') }}</td>
                                                 <td class="px-0 sm:px-2 md:px-6  py-4 text-center flex justify-center space-x-2">
-                                                    <button class="bg-transparent text-blue-500 border border-blue-500 rounded-full px-0 sm:px-2 md:px-6  py-1 hover:bg-blue-500 hover:text-white" onclick="event.stopPropagation(); window.location='{{ url('/edit/'.$invoice['nomor']) }}'">Edit</button>
-                                                    <button class="bg-transparent text-blue-500 border border-blue-500 rounded-full px-0 sm:px-2 md:px-6 py-1 hover:bg-blue-500 hover:text-white" onclick="event.stopPropagation(); document.getElementById('delete-form-{{ $invoice['nomor'] }}').submit();">
-        Hapus
-    </button>
-
-    <form id="delete-form-{{ $invoice['nomor'] }}" action="{{ url('/delete/'.$invoice['nomor']) }}" method="POST" style="display: none;">
-        @csrf
-        @method('DELETE')
-    </form>
+                                                    <button class="bg-transparent text-blue-500 border border-blue-500 rounded-full px-0 sm:px-2 md:px-6 py-1 hover:bg-blue-500 hover:text-white" onclick="event.stopPropagation(); window.location='{{ url('/edit/'.$invoice['nomor']) }}'">Edit</button>
+                                                    <button class="bg-transparent text-blue-500 border border-blue-500 rounded-full px-0 sm:px-2 md:px-6 py-1 hover:bg-blue-500 hover:text-white" onclick="event.stopPropagation(); confirmDeletion('{{ $invoice['nomor'] }}')">
+                                                        Hapus
+                                                    </button>
+                                                    
+                                                    <form id="delete-form-{{ $invoice['nomor'] }}" action="{{ url('/delete/'.$invoice['nomor']) }}" method="POST" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+                                                    
+                                                    <script>
+                                                    function confirmDeletion(nomor) {
+                                                        if (confirm("Are you sure you want to delete this invoice?")) {
+                                                            document.getElementById('delete-form-' + nomor).submit();
+                                                        }
+                                                    }
+                                                    </script>
+                                                    
                                                 </td>                                        
                                             </tr>
                                         @endforeach
