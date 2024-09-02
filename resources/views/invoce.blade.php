@@ -21,6 +21,15 @@
     <body class="font-sans antialiased dark:bg-black dark:text-white/50">
         
                     <header class="pt-3 md:pt-10 md:pb-2 flex justify-end">
+                        
+                        <!-- Form Pencarian -->
+                    <div class="border border-black rounded-full mr-8">
+                     <form action="{{ url('/invoce') }}" method="GET">
+                       <input class="pl-6 py-1 rounded-l-full" type="text" name="search" placeholder="Cari..." value="{{ request('search') }}">
+                       <button class="bg-blue-600 hover:bg-blue-500 text-white pr-6 pl-1 py-1 rounded-r-full" type="submit">Cari</button>
+                     </form>
+                    </div>
+
                         <button class="bg-transparent text-blue-500 border border-blue-500 rounded-full px-6 py-1 mr-8 hover:bg-blue-500 hover:text-white" onclick=" window.location='{{ url('/create')}}'">Tambah</button>
                     </header>
 
@@ -32,6 +41,8 @@
                          <main class="">
                              <div class=" bg-white rounded-md mx-4 mb-4 p-0 md:p-4 flex flex-col items-center justify-center text-xs sm:text-sm md:text-md lg:text-lg">
 
+                                <!-- Link Paginasi -->
+                               {{ $invoce->links() }}
 
                                 <table class="min-w-full bg-white">
                                     <thead>
@@ -76,6 +87,7 @@
                                                     
                                                 </td>                                        
                                             </tr>
+                                            
                                         @endforeach
                                     </tbody>
                                 </table>
