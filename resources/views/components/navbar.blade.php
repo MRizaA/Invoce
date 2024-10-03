@@ -12,7 +12,7 @@ id="drawer-navigation"
   
   <ul class="space-y-2">
     <li>
-        <a href="/" class="{{ Request::is('/') ? 'bg-gray-100' : '' }} text-black hover:text-blue-500 hover:underline px-4 flex items-center p-2 text-base font-medium rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700">Dashboard</a>
+        <a href="/dashboard" class="{{ Request::is('/dashboard') ? 'bg-gray-100' : '' }} text-black hover:text-blue-500 hover:underline px-4 flex items-center p-2 text-base font-medium rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700">Dashboard</a>
      
     </li>
     <li>

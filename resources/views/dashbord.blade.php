@@ -19,20 +19,17 @@
 
     </head>
     <body class="font-sans antialiased dark:bg-black dark:text-white/50">
-        
-                    {{-- <header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
-                       
-                    </header> --}}
 
-                    
+                    <x-app-layout>
+                      
                         <x-navbar />
     
                         <div class="p-4 md:ml-64 ml-32 h-auto">
                           
-                         <div class=" bg-gray-200 pt-4">
+                         <div class=" bg-gray-200">
                           <main class="">
-                              <div class=" bg-white rounded-md mx-4 mb-4 p-4 flex flex-col items-center justify-center">
-                              <img src="img/image.png" alt="" class=" w-5/12">
+                              <div class=" bg-white rounded-md mb-4 p-4 flex flex-col items-center justify-center">
+                              <img src="img/image.png" alt="" class=" w-2/5">
                               <div class=""><h1 class=" text-orange-400 pt-4 text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-center">Panda, Inc</h1></div>
                               </div>
                           </main>
@@ -42,6 +39,8 @@
                             Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
                           </footer>
                          </div>
-                        </div>          
+                        </div> 
+                        
+                    </x-app-layout>
     </body>
 </html>
