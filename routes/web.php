@@ -1,47 +1,30 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
-
-
 use App\Http\Controllers\InvoceController;
-
-use App\Models\invoce;
+use App\Models\Invoce;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashbord');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashbord');
+    })->name('dashboard');
 
-Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
-require __DIR__.'/auth.php';
+    // Invoice routes
+    Route::get('/invoce', function () {
+        $query = Invoce::query();
+        $search = request('search');
 
-
-
-
-Route::get('/invoce', function () {
-    
-    // $invoice = [
-    //     ['nomor' => 'PA0005-24', 'nama' => 'Agus Tutisno', 'tanggal' => '03 Maret 2024', 'harga' => 100000]
-    // ];
-
-    // invoce::all();
-    // $invoice=invoce::all();;
-
-
-    //pencarian
-    $query = Invoce::query();
-    $search = request('search');
-
-    if ($search) {
+        // Existing search logic
+        if ($search) {
         // Pisahkan berdasarkan spasi untuk memisahkan kata-kata, tapi pertimbangkan kutipan dan garis bawah
         preg_match_all('/"([^"]+)"|([^"\s]+)/', $search, $matches);
         $terms = array_map(function($term) {
@@ -96,32 +79,40 @@ Route::get('/invoce', function () {
         }
     }
 
-    
 
-    // Paginasi hasil pencarian
-    $invoice = $query->latest()->paginate(4)->withQueryString();
+        $invoice = $query->latest()->paginate(4)->withQueryString();
 
+        return view('invoce', ['invoce' => $invoice]);
+    })->name('invoce.index');
 
+    Route::get('/detail/{nomor}', function ($nomor) {
+        $invoice = Invoce::where('nomor', $nomor)->firstOrFail();
+        return view('isi', ['invoce' => $invoice]);
+    })->name('invoce.show');
 
+    // Routes that require 'create invoices' permission
+    Route::middleware(['can:create invoices'])->group(function () {
+        Route::get('/create', function () {
+            return view('create');
+        })->name('invoce.create');
 
-    return view('invoce', ['invoce'=> $invoice]);
+        Route::post('/invoce', [InvoceController::class, 'store'])->name('invoce.store');
+    });
+
+    // Routes that require 'update invoices' permission
+    Route::middleware(['can:update invoices'])->group(function () {
+        Route::get('/edit/{nomor}', function ($nomor) {
+            $invoice = Invoce::where('nomor', $nomor)->firstOrFail();
+            return view('edit', ['invoce' => $invoice]);
+        })->name('invoce.edit');
+
+        Route::put('/update/{nomor}', [InvoceController::class, 'update'])->name('invoce.update');
+    });
+
+    // Route that requires 'delete invoices' permission
+    Route::delete('/delete/{nomor}', [InvoceController::class, 'destroy'])
+        ->middleware('can:delete invoices')
+        ->name('invoce.destroy');
 });
 
-Route::get('/detail/{nomor}', function ($nomor) {
-    $invoice = Invoce::where('nomor', $nomor)->firstOrFail();
-    return view('isi', ['invoce' => $invoice]);
-});
-
-Route::get('/edit/{nomor}', function ($nomor) {
-    // dd($nomor);
-    $invoice = Invoce::where('nomor', $nomor)->firstOrFail();
-    return view('edit', ['invoce'=> $invoice]);
-});
-
-Route::get('/create', function () {
-    return view('create');
-});
-
-Route::put('/update/{nomor}', [InvoceController::class, 'update']);
-Route::delete('/delete/{nomor}', [InvoceController::class, 'destroy']);
-
+require __DIR__.'/auth.php';

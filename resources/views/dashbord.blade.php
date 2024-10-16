@@ -28,8 +28,8 @@
                           
                          <div class=" bg-gray-200">
                           <main class="">
-                              <div class=" bg-white rounded-md mb-4 p-4 flex flex-col items-center justify-center">
-                              <img src="img/image.png" alt="" class=" w-2/5">
+                              <div class=" bg-white rounded-md mb-4 p-4 flex flex-col items-center justify-center ">
+                              <img src="img/image.png" alt="" class="" style="min-width:160px; width:25%;">
                               <div class=""><h1 class=" text-orange-400 pt-4 text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-center">Panda, Inc</h1></div>
                               </div>
                           </main>

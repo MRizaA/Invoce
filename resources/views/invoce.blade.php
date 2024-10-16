@@ -39,8 +39,9 @@
                                    <button class="bg-blue-600 hover:bg-blue-500 text-white pr-6 pl-1 py-1 rounded-r-full" type="submit">Cari</button>
                                  </form>
                                 </div>
-            
-                                    <button class="bg-transparent text-blue-500 border border-blue-500 rounded-full px-6 py-1 mr-8 hover:bg-blue-500 hover:text-white" onclick=" window.location='{{ url('/create')}}'">Tambah</button>
+                                    @can('create invoices')            
+                                    <button class="bg-transparent text-blue-500 border border-blue-500 rounded-full px-6 py-1 mr-8 ml-4 hover:bg-blue-500 hover:text-white" onclick=" window.location='{{ url('/create')}}'">Tambah</button>
+                                    @endcan
                                 </div>
                                 
                              <div class=" flex flex-col items-center justify-center">
@@ -54,7 +55,9 @@
                                             <th class="px-0 sm:px-2 md:px-6 py-2 text-blue-500">Penerima</th>
                                             <th class="px-0 sm:px-2 md:px-6 py-2 text-blue-500">Tanggal</th>
                                             <th class="px-0 sm:px-2 md:px-6 py-2 text-blue-500">Harga</th>
+                                            @canany(['update invoices', 'delete invoices'])
                                             <th class="px-0 sm:px-2 md:px-6 py-2 text-blue-500">Aksi</th>
+                                            @endcanany
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -69,6 +72,7 @@
                                                 <td class="px-0 sm:px-2 md:px-6  py-4 text-center">{{ $invoice['nama'] }}</td>
                                                 <td class="px-0 sm:px-2 md:px-6  py-4 text-center">{{ $invoice['tanggal'] }}</td>
                                                 <td class="px-0 sm:px-2 md:px-6  py-4 text-center">Rp {{ number_format($invoice['harga'], 0, ',', '.') }}</td>
+                                                @canany(['update invoices', 'delete invoices'])
                                                 <td class="px-0 sm:px-2 md:px-6  py-4 text-center flex justify-center space-x-2">
                                                     <button class="bg-transparent text-blue-500 border border-blue-500 rounded-full px-0 sm:px-2 md:px-6 py-1 hover:bg-blue-500 hover:text-white" onclick="event.stopPropagation(); window.location='{{ url('/edit/'.$invoice['nomor']) }}'">Edit</button>
                                                     <button class="bg-transparent text-blue-500 border border-blue-500 rounded-full px-0 sm:px-2 md:px-6 py-1 hover:bg-blue-500 hover:text-white" onclick="event.stopPropagation(); confirmDeletion('{{ $invoice['nomor'] }}')">
@@ -88,7 +92,8 @@
                                                     }
                                                     </script>
                                                     
-                                                </td>                                        
+                                                </td> 
+                                                @endcanany                                       
                                             </tr>
                                             
                                         @endforeach

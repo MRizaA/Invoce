@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoce;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use App\Http\Controllers\Controller;
 
 class InvoceController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index()
     {
         // Mengambil semua data dari tabel invoces
@@ -16,11 +20,15 @@ class InvoceController extends Controller
 
     public function create()
     {
+        $this->authorize('create invoices');
+        
         return view('create');
     }
 
     public function store(Request $request)
     {
+        $this->authorize('create invoices');
+
         $validatedData = $request->validate([
             'nama' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
@@ -44,6 +52,7 @@ class InvoceController extends Controller
 
     public function edit($nomor)
 {
+    $this->authorize('update invoices');
     // Fetch the invoice based on the nomor
     $invoce = Invoce::where('nomor', $nomor)->firstOrFail();
     // Return the edit view with the invoice data
@@ -51,7 +60,9 @@ class InvoceController extends Controller
 }
 
 public function update(Request $request, $nomor)
-{
+{ 
+    $this->authorize('update invoices');
+    
     // Validate the request data
     $validatedData = $request->validate([
         'nama' => 'required|string|max:255',
@@ -75,11 +86,14 @@ public function update(Request $request, $nomor)
 
 public function destroy($nomor)
 {
+    $this->authorize('delete invoices');
+
     $invoce = Invoce::where('nomor', $nomor)->firstOrFail();
     $invoce->delete();
 
     return redirect()->to('/invoce')->with('success', 'Invoce berhasil dihapus');
 }
+
 
 }
 
