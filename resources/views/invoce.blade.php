@@ -30,8 +30,7 @@
                          <main class="">
                              <div class=" bg-white rounded-md mb-4 p-0 md:p-4 text-xs sm:text-sm md:text-md lg:text-lg">
 
-                                <div class="md:py-4 flex justify-end items-end bg-white">
-                        
+                                <div class="md:py-4 mb-4 flex justify-end items-end bg-white">  
                                     <!-- Form Pencarian -->
                                 <div class="border border-black rounded-full md:mr-8 mr-4">
                                  <form action="{{ url('/invoce') }}" method="GET">
@@ -39,9 +38,11 @@
                                    <button class="bg-blue-600 hover:bg-blue-500 text-white pr-6 pl-1 py-1 rounded-r-full" type="submit">Cari</button>
                                  </form>
                                 </div>
+                                  <div class="">
                                     @can('create invoices')            
                                     <button class="bg-transparent text-blue-500 border border-blue-500 rounded-full px-6 py-1 mr-8 ml-4 hover:bg-blue-500 hover:text-white" onclick=" window.location='{{ url('/create')}}'">Tambah</button>
                                     @endcan
+                                  </div>   
                                 </div>
                                 
                              <div class=" flex flex-col items-center justify-center">

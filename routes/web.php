@@ -47,7 +47,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 $query->where(function($q) use ($term) {
                     $q->where('nama', 'like', '%' . substr($term, 1) . '%')
                       ->orWhere('nomor', 'like', '%' . substr($term, 1) . '%')
-                      ->orWhere('item', 'like', '%' . substr($term, 1) . '%');
+                      ->orWhere('item', 'like', '%' . substr($term, 1) . '%')
+                      ->orWhere('harga', 'like', '%' . substr($term, 1) . '%')
+                      ->orWhereDate('tanggal', 'like', '%' . substr($term, 1) . '%');
                 });
                 unset($terms[$key]);
             }
@@ -58,8 +60,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             if (substr($term, 0, 1) == '-') {
                 $query->where(function($q) use ($term) {
                     $q->where('nama', 'not like', '%' . substr($term, 1) . '%')
-                      ->orWhere('nomor', 'not like', '%' . substr($term, 1) . '%')
-                      ->orWhere('item', 'not like', '%' . substr($term, 1) . '%');
+                      ->Where('nomor', 'not like', '%' . substr($term, 1) . '%')
+                      ->Where('item', 'not like', '%' . substr($term, 1) . '%')
+                      ->Where('harga', 'not like', '%' . substr($term, 1) . '%')
+                      ->WhereDate('tanggal', 'not like', '%' . substr($term, 1) . '%');
                 });
                 unset($terms[$key]);
             }
